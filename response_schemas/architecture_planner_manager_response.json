@@ -1,0 +1,54 @@
+{
+  "agent_name": "Architecture Planner Manager",
+  "agent_id": "695baf9cc2dad05ba69ad4d2",
+  "agent_purpose": "manager",
+  "description": "Orchestrates the complete workflow coordinating requirements analysis and cost calculation to deliver comprehensive architecture plans with cost breakdowns",
+  "response_schema": {
+    "status": "string (success|error)",
+    "result": {
+      "final_output": "object (aggregated result from sub-agents)",
+      "sub_agent_results": [
+        {
+          "agent_name": "string",
+          "status": "string",
+          "output": "object"
+        }
+      ],
+      "summary": "string",
+      "workflow_completed": "boolean"
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string (ISO)",
+      "sub_agents_used": [
+        "string"
+      ]
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "final_output": {
+        "aggregated": "data from all sub-agents"
+      },
+      "sub_agent_results": [
+        {
+          "agent_name": "Sub-Agent 1",
+          "status": "success",
+          "output": {
+            "data": "result"
+          }
+        }
+      ],
+      "summary": "All sub-agents completed successfully",
+      "workflow_completed": true
+    },
+    "metadata": {
+      "agent_name": "Architecture Planner Manager",
+      "timestamp": "2025-01-15T10:30:00Z",
+      "sub_agents_used": [
+        "Sub-Agent 1"
+      ]
+    }
+  }
+}

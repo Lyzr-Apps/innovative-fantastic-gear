@@ -1,0 +1,48 @@
+{
+  "agent_name": "Cost Calculator Agent",
+  "agent_id": "695baf91457887dd859fb079",
+  "agent_purpose": "calculator",
+  "description": "Calculates per-interaction costs and monthly expenses based on Lyzr pricing model with cost breakdowns and optimization recommendations",
+  "response_schema": {
+    "status": "string (success|error)",
+    "result": {
+      "total_value": "number",
+      "breakdown": [
+        {
+          "category": "string",
+          "amount": "number",
+          "description": "string"
+        }
+      ],
+      "summary": "string",
+      "currency": "string (optional)"
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string (ISO)"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "total_value": 150.0,
+      "breakdown": [
+        {
+          "category": "Base Cost",
+          "amount": 100,
+          "description": "Primary calculation"
+        },
+        {
+          "category": "Additional",
+          "amount": 50,
+          "description": "Extra charges"
+        }
+      ],
+      "summary": "Total calculated based on input parameters"
+    },
+    "metadata": {
+      "agent_name": "Cost Calculator Agent",
+      "timestamp": "2025-01-15T10:30:00Z"
+    }
+  }
+}

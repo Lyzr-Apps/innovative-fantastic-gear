@@ -1,0 +1,49 @@
+{
+  "agent_name": "Requirements Analyzer Agent",
+  "agent_id": "695baf87457887dd859fb078",
+  "agent_purpose": "analyzer",
+  "description": "Analyzes problem statements and extracts architectural requirements including component counts, token volumes, and complexity assessment",
+  "response_schema": {
+    "status": "string (success|error)",
+    "result": {
+      "analysis": "string",
+      "findings": [
+        {
+          "title": "string",
+          "description": "string",
+          "severity": "string (low|medium|high)"
+        }
+      ],
+      "score": "number (optional, 0-100)",
+      "recommendations": [
+        "string"
+      ]
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string (ISO)"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "analysis": "Comprehensive analysis of the provided data",
+      "findings": [
+        {
+          "title": "Key Finding 1",
+          "description": "Important observation",
+          "severity": "high"
+        }
+      ],
+      "score": 85,
+      "recommendations": [
+        "Consider optimizing X",
+        "Review Y for improvements"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Requirements Analyzer Agent",
+      "timestamp": "2025-01-15T10:30:00Z"
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "system_name": "Lyzr Credit Calculator",
+  "system_type": "Manager-SubAgent Architecture",
+  "description": "Complete agent system for calculating AI agent architecture costs using Lyzr pricing model",
+  "created_at": "2026-01-05",
+  "workflow": {
+    "nodes": [
+      {
+        "id": "user_input",
+        "type": "Input",
+        "label": "Problem Statement",
+        "nodeCategory": "input",
+        "position": {
+          "x": 100,
+          "y": 150
+        }
+      },
+      {
+        "id": "manager_agent",
+        "type": "Agent",
+        "label": "Architecture Planner Manager",
+        "nodeCategory": "agent",
+        "position": {
+          "x": 400,
+          "y": 150
+        },
+        "agent_id": "695baf9cc2dad05ba69ad4d2",
+        "agent_type": "Manager",
+        "description": "Coordinates the analysis and estimation workflow"
+      },
+      {
+        "id": "requirements_analyzer",
+        "type": "Agent",
+        "label": "Requirements Analyzer Agent",
+        "nodeCategory": "agent",
+        "position": {
+          "x": 700,
+          "y": 50
+        },
+        "agent_id": "695baf87457887dd859fb078",
+        "agent_type": "Sub-Agent",
+        "description": "Parses problem statements to identify required components"
+      },
+      {
+        "id": "cost_calculator",
+        "type": "Agent",
+        "label": "Cost Calculator Agent",
+        "nodeCategory": "agent",
+        "position": {
+          "x": 700,
+          "y": 250
+        },
+        "agent_id": "695baf91457887dd859fb079",
+        "agent_type": "Sub-Agent",
+        "description": "Applies Lyzr pricing model to calculate costs"
+      },
+      {
+        "id": "final_output",
+        "type": "Output",
+        "label": "Architecture Plan & Cost Breakdown",
+        "nodeCategory": "end",
+        "position": {
+          "x": 1000,
+          "y": 150
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "user_input",
+        "target": "manager_agent",
+        "label": "Problem Statement"
+      },
+      {
+        "source": "manager_agent",
+        "target": "requirements_analyzer",
+        "label": "Analyze Requirements"
+      },
+      {
+        "source": "manager_agent",
+        "target": "cost_calculator",
+        "label": "Calculate Costs"
+      },
+      {
+        "source": "requirements_analyzer",
+        "target": "final_output",
+        "label": "Architecture Plan"
+      },
+      {
+        "source": "cost_calculator",
+        "target": "final_output",
+        "label": "Cost Analysis"
+      }
+    ]
+  },
+  "agents": {
+    "manager": {
+      "agent_id": "695baf9cc2dad05ba69ad4d2",
+      "name": "Architecture Planner Manager",
+      "type": "Manager",
+      "role": "Architecture Coordination Manager",
+      "description": "Coordinates the analysis and estimation workflow, routes problem statement to analyzer, passes architecture to calculator, aggregates final output with both architecture plan and cost breakdown",
+      "model": "gpt-4.1",
+      "provider": "OpenAI",
+      "temperature": 0.3,
+      "top_p": 1,
+      "managed_agents": [
+        {
+          "id": "695baf87457887dd859fb078",
+          "name": "Requirements Analyzer Agent"
+        },
+        {
+          "id": "695baf91457887dd859fb079",
+          "name": "Cost Calculator Agent"
+        }
+      ]
+    },
+    "sub_agents": [
+      {
+        "agent_id": "695baf87457887dd859fb078",
+        "name": "Requirements Analyzer Agent",
+        "type": "Sub-Agent",
+        "role": "Requirements Analysis Specialist",
+        "description": "Parses problem statements to identify required components: number of agents, knowledge bases, tools, sessions, RAI needs, memory requirements, and estimates input/output token volumes per interaction based on complexity",
+        "model": "gpt-4.1",
+        "provider": "OpenAI",
+        "temperature": 0.4,
+        "top_p": 1,
+        "output_format": {
+          "agents": "number",
+          "knowledge_bases": "number",
+          "tools": "number",
+          "sessions": "number",
+          "rai_required": "boolean",
+          "memory_requirement": "low|medium|high",
+          "input_tokens_per_interaction": "number",
+          "output_tokens_per_interaction": "number",
+          "complexity": "simple|moderate|complex|enterprise",
+          "rationale": "string"
+        }
+      },
+      {
+        "agent_id": "695baf91457887dd859fb079",
+        "name": "Cost Calculator Agent",
+        "type": "Sub-Agent",
+        "role": "Cost Analysis & Pricing Specialist",
+        "description": "Takes architecture specifications and applies Lyzr pricing model to calculate per-interaction costs, monthly estimates at various usage levels, and provides optimization recommendations",
+        "model": "gpt-4.1",
+        "provider": "OpenAI",
+        "temperature": 0.2,
+        "top_p": 1,
+        "pricing_model": {
+          "agent_calls": "$0.10 per call",
+          "knowledge_base_monthly": "$50 per KB",
+          "tokens_input": "$0.03 per 1K tokens",
+          "tokens_output": "$0.06 per 1K tokens",
+          "tool_usage": "$0.05 per tool call",
+          "monthly_base": "$100"
+        },
+        "output_format": {
+          "per_interaction_cost": "number",
+          "monthly_costs": {
+            "at_100": "number",
+            "at_1k": "number",
+            "at_10k": "number",
+            "at_100k": "number"
+          },
+          "component_breakdown": "array",
+          "optimization_tips": "array",
+          "base_monthly_cost": "number"
+        }
+      }
+    ]
+  },
+  "response_schemas": {
+    "requirements_analyzer": "/app/project/response_schemas/requirements_analyzer_agent_response.json",
+    "cost_calculator": "/app/project/response_schemas/cost_calculator_agent_response.json",
+    "manager": "/app/project/response_schemas/architecture_planner_manager_response.json"
+  },
+  "system_configuration": {
+    "trigger": "Analyze & Estimate button on Calculator Screen",
+    "input_type": "Problem statement describing desired AI agent system",
+    "output_type": "JSON containing architecture plan and cost breakdown",
+    "error_handling": "All agents return status field indicating success/error",
+    "authentication": "Via Lyzr API (provider_id and model specified)"
+  }
+}
